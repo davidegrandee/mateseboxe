@@ -122,8 +122,8 @@ section{padding:56px 0}
    =========================== */
 .card-list{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
-  gap:14px
+  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+  gap:16px
 }
 .card{
   border:1px solid rgba(226,27,35,.28);
@@ -160,27 +160,81 @@ section{padding:56px 0}
    =========================== */
 .map-card{padding:0; border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
 .map-wrapper{position:relative; width:100%}
-.map{width:100%; height:280px; border:0; display:block; border-radius:14px}
+.map{width:100%; height:300px; border:0; display:block; border-radius:14px}
 
 /* ===========================
    CTA band + Footer
    =========================== */
-.cta-band{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:linear-gradient(180deg,#0f0f0f,#0a0a0a); padding:36px 0}
+.cta-band{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:linear-gradient(180deg,#0f0f0f,#0a0a0a); padding:36px 0; margin-bottom:10px}
 .cta-band-inner{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
 .cta-title{margin:0 0 6px}
 .cta-sub{margin:0; color:#e0dfdc}
 .cta-actions{display:flex; gap:10px; flex-wrap:wrap}
-.footer{padding:22px 0 32px; border-top:1px solid var(--line); text-align:center; color:#d6d4d0}
+.footer{padding:22px 0 calc(34px + env(safe-area-inset-bottom)); border-top:1px solid var(--line); text-align:center; color:#d6d4d0}
 
 /* ===========================
-   FLOATING WHATSAPP BUTTON
+   FAB "Torna su" (progress ring)
    =========================== */
-/* Metti l'immagine in /assets/whatsapp.png oppure cambia l'URL sotto */
+.fab-top{
+  position: fixed;
+  right: calc(16px + env(safe-area-inset-right));
+  bottom: calc(96px + env(safe-area-inset-bottom)); /* sopra a WhatsApp */
+  width: 50px; height: 50px; border-radius: 999px;
+  border: none; cursor: pointer; z-index: 130;
+  background: rgba(20,20,20,.9);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.06);
+  display: grid; place-items: center;
+  transition: transform .12s ease, opacity .18s ease, filter .12s ease;
+  /* progress ring dietro al tasto */
+  --p: 0deg;
+  isolation: isolate; /* per il pseudo-element */
+}
+.fab-top::before{
+  content: "";
+  position: absolute; inset: -3px; border-radius: inherit; z-index: -1;
+  background:
+    conic-gradient(var(--red) var(--p), rgba(226,27,35,.18) 0);
+  filter: drop-shadow(0 2px 10px rgba(226,27,35,.25));
+}
+.fab-top:hover{ transform: translateY(-2px); filter: brightness(1.05); }
+.fab-top:active{ transform: translateY(0); }
+.fab-top__icon{
+  font-size: 20px; line-height: 1;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(180deg, #141414, #0e0e0e);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+/* Mostra/Nascondi con fade */
+.fab-top{ opacity: 0; pointer-events: none; }
+.fab-top.is-visible{ opacity: 1; pointer-events: auto; }
+
+/* Schermi piccoli: leggermente più vicino al bordo e un filo più piccolo */
+@media (max-width: 480px){
+  .fab-top{
+    right: calc(18px + env(safe-area-inset-right));
+    bottom: calc(92px + env(safe-area-inset-bottom));
+    width: 48px; height: 48px;
+  }
+}
+
+/* Assicurati che il FAB WhatsApp resti sotto di ~40px */
 .fab-whatsapp{
-  position:fixed; right:calc(16px + env(safe-area-inset-right));
-  bottom:calc(18px + env(safe-area-inset-bottom));
+  bottom: calc(22px + env(safe-area-inset-bottom)); /* già nel tuo CSS */
+  z-index: 120;
+}
+
+/* ===========================
+   FLOATING WHATSAPP BUTTON (img)
+   =========================== */
+.fab-whatsapp{
+  position:fixed;
+  right:calc(16px + env(safe-area-inset-right));
+  bottom:calc(22px + env(safe-area-inset-bottom));
   width:56px; height:56px; border-radius:999px; z-index:120;
-  background:#25D366 url('assets/whatsapp.png') center/60% no-repeat;
+  background:#25D366 url('whatsapp.png') center/60% no-repeat;
   box-shadow:0 10px 22px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.1);
   border:1px solid rgba(0,0,0,.25); transition:transform .12s ease, filter .12s ease
 }
@@ -194,7 +248,7 @@ section{padding:56px 0}
   h1{font-size:40px}
   .section-title{font-size:30px}
   .bio-grid{grid-template-columns:1.1fr .9fr; gap:28px}
-  .map{height:320px}
+  .map{height:340px}
 }
 @media (min-width: 980px){
   h1{font-size:56px}
@@ -207,3 +261,8 @@ section{padding:56px 0}
   .hamburger{display:block}
   .nav-link{display:none}
 }
+
+/* ==== Scroll anchoring / padding top */
+:root { --nav-h: 64px; }
+html{ scroll-padding-top: var(--nav-h); }
+main{ padding-bottom: calc(120px + env(safe-area-inset-bottom)); }

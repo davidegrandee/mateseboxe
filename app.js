@@ -8,15 +8,30 @@ if (intro && enterBtn) {
   setTimeout(hideIntro, 1600);
 }
 
-// Navbar shadow on scroll + back-to-top
-const nav = document.getElementById('nav');
+// ===== Scroll-to-top con anello progresso =====
 const toTop = document.getElementById('toTop');
-window.addEventListener('scroll', () => {
-  const y = window.scrollY || document.documentElement.scrollTop;
-  nav.classList.toggle('scrolled', y > 8);
-  if (y > 600) toTop.classList.add('show'); else toTop.classList.remove('show');
+
+// Calcola progress anello e visibilità
+function updateScrollFab(){
+  const scrolled = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? scrolled / max : 0;
+  if (toTop){
+    // 0..360deg
+    toTop.style.setProperty('--p', `${Math.min(360, Math.max(0, pct*360))}deg`);
+    // mostra dopo 240px
+    if (scrolled > 240) toTop.classList.add('is-visible');
+    else toTop.classList.remove('is-visible');
+  }
+}
+window.addEventListener('scroll', updateScrollFab, { passive: true });
+window.addEventListener('resize', updateScrollFab);
+updateScrollFab();
+
+// Smooth scroll to top
+toTop?.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
-toTop?.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
 // Drawer mobile
 const hamburger = document.getElementById('hamburger');
