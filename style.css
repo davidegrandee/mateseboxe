@@ -111,7 +111,7 @@ section{padding:var(--space-xxl) 0}
 
 /* Map */
 .map-card{padding:0;border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
-.map-wrapper{position:relative;width:100%;padding-bottom:56.25%}
+.map-wrapper{border-radius: 18px; position:relative;width:100%;padding-bottom:56.25%}
 .map{position:absolute;inset:0;width:100%;height:100%;border:0}
 
 /* CTA band */
@@ -137,66 +137,83 @@ section{padding:var(--space-xxl) 0}
 .reveal.scale.in{opacity:1;transform:scale(1)}
 .delay1{transition-delay:.12s} .delay2{transition-delay:.24s} .delay3{transition-delay:.36s}
 
-/* ✅ Responsive mobile fix */
-@media (max-width: 980px){
-  .bio-grid{
-    grid-template-columns: 1fr;
-    gap: 24px;
+/* ====== MOBILE FIXES ====== */
+@media (max-width: 480px) {
+
+  /* Riduci testo hero */
+  h1 {
+    font-size: 28px !important;
+    line-height: 1.2;
   }
-  .bio-photo{
-    aspect-ratio: 1 / 1;  /* 🔥 evita tagli folli verticali */
-  }
-  section{
-    padding: 56px 0;
-  }
-  .lead{
-    font-size: 18px;
+  .lead {
+    font-size: 15px !important;
+    line-height: 1.5;
     padding: 0 6px;
   }
-  .card-list{
-    grid-template-columns: 1fr 1fr; /* 🔥 2 col su tablet */
-    gap: 12px;
-  }
-}
 
-/* Smartphone puri */
-@media (max-width: 640px){
-  .card-list{
-    grid-template-columns: 1fr; /* 🔥 una colonna liscia */
-    gap: 12px;
-  }
-  .card{
-    min-height: 120px;
+  /* Pulsanti più compatti */
+  .pill {
+    padding: 10px 14px;
     font-size: 15px;
-    padding: 16px;
   }
-  .contact-grid{
-    grid-template-columns: 1fr;
+
+  /* Tag (bambini, amatori…) */
+  .tag {
+    font-size: 14px !important;
+    padding: 6px 10px !important;
+    margin: 4px;
   }
-  h1{
-    font-size: 32px !important;
+
+  /* Card orari e contatti */
+  .card {
+    padding: 14px;
   }
-  .hero{
-    min-height: 84vh;
-  }
-  .cta-band-inner{
-    flex-direction: column;
-    text-align: center;
-    gap: 18px;
-  }
-  .manifesto{
-    padding: 0 10px;
-  }
-  .bio-text p{
+  .card h3 {
     font-size: 16px;
+  }
+  .card ul li {
+    font-size: 14px;
+  }
+
+  /* Bio testo */
+  .bio-text p {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  /* Mappa */
+  .map {
+    height: 260px !important;
+  }
+  .map-wrapper::after {
+    padding-bottom: 0;
+  }
+
+  /* Rimuovi spazio eccessivo tra sezioni */
+  section {
+    padding: 48px 0;
+  }
+
+  /* Footer più compatto */
+  .footer {
+    padding: 20px 0 28px;
+    font-size: 13px;
+  }
+
+  /* Nascondi la barra “Visualizza mappa più grande” */
+  .map iframe {
+    pointer-events: none;
+  }
+
+  /* Redditizia:
+     Mantiene tutto dentro viewport */
+  .container {
+    padding: 0 18px;
   }
 }
 
-/* Menu mobile */
-@media (max-width: 860px){
-  .hamburger{ display:block; }
-  .nav-link{ display:none; }
-  .brand{
-    font-size: 16px;
-  }
+/* ====== Fix generale su iPhone SAFE AREA ====== */
+html, body {
+  width: 100vw;
+  overflow-x: hidden;
 }
